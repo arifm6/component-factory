@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import MilestoneDescription from "./MilestoneDescription";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 type Milestone = {
   startDate: Date;
@@ -9,26 +10,52 @@ type Milestone = {
   endDateString: string;
   company: string;
   position: string;
+  redirectUrl?: string;
 };
 
 type TimelineProps = {
   timelineMilestones: Milestone[];
+  mainColor: string;
+  buttonColor: string;
 };
 
-export default function TimelineDesktop({ timelineMilestones }: TimelineProps) {
+export default function TimelineDesktop({
+  timelineMilestones,
+  mainColor,
+  buttonColor,
+}: TimelineProps) {
   const [dateIsHovered, setDateIsHovered] = useState(false);
   const initialDateProps = { width: 0, opacity: 0 };
   const animateDateProps = { width: "auto", opacity: 1 };
+  const mainColorTextStyle = { color: mainColor };
+  const router = useRouter();
   return (
-    <div className="block w-full">
+    <div className="block w-full relative">
       <div className="flex w-full items-center">
-        <div className="grow-[0.5] h-[1px] bg-gray-400"></div>
+        <div
+          style={{ backgroundColor: mainColor }}
+          className={`grow-[0.5] h-[1px] bg-[${mainColor}]`}
+        ></div>
         {timelineMilestones.map((milestone, index) => {
           //alternate arrow each time
           const alternate = index % 2 === 0;
           return (
             <div className="relative flex items-center grow " key={index}>
-              <div className="h-8 w-8 border-2 border-blue-400 rounded-full relative ">
+              <div
+                style={{ borderColor: buttonColor }}
+                className={`h-8 w-8 border-[2px] rounded-full relative`}
+              >
+                <div
+                  className="absolute  inset-0 rounded-full cursor-pointer"
+                  onClick={() => {
+                    milestone.redirectUrl && router.push(milestone.redirectUrl);
+                  }}
+                >
+                  <div
+                    style={{ backgroundColor: buttonColor }}
+                    className={`h-4 w-4 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 rounded-full`}
+                  ></div>
+                </div>
                 <div
                   className={`absolute flex  left-1/2  -translate-x-1/2  ${
                     alternate
@@ -37,7 +64,8 @@ export default function TimelineDesktop({ timelineMilestones }: TimelineProps) {
                   }`}
                 >
                   <div
-                    className="flex flex-nowrap group items-center"
+                    style={mainColorTextStyle}
+                    className={`flex flex-nowrap group items-center   font-bold text-xl`}
                     onMouseEnter={() => setDateIsHovered(true)}
                     onMouseLeave={() => {
                       setDateIsHovered(false);
@@ -77,7 +105,10 @@ export default function TimelineDesktop({ timelineMilestones }: TimelineProps) {
                   />
                 </div>
               </div>
-              <div className="h-[1px] grow bg-gray-400"></div>
+              <div
+                style={{ backgroundColor: mainColor }}
+                className={`h-[1px] grow bg-[${mainColor}]`}
+              ></div>
             </div>
           );
         })}

@@ -14,8 +14,9 @@ export default function MilestoneDescription({
   return (
     <div className="flex justify-between items-center text-center">
       <div className="flex flex-col whitespace-nowrap w-auto  ">
-        <div>{company}</div>
         <div>{position}</div>
+
+        <div className="text-[#343434] text-sm">{company}</div>
       </div>
     </div>
   );

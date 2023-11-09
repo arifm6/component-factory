@@ -1,6 +1,5 @@
 import CardContainer from "@/components/CardContainer";
 import Timeline from "@/components/Timeline/Timeline";
-import TimelineDesktop from "@/components/Timeline/TimelineDesktop";
 import React from "react";
 
 type Props = {};
@@ -11,7 +10,8 @@ export default function Sandbox({}: Props) {
       startDate: new Date("September 1 2018"),
       endDateString: "April 2023",
       company: "McMaster University",
-      position: "CS and Math",
+      position: "Computer Science and Mathematics",
+      redirectUrl: "/sandbox#education",
     },
     {
       startDate: new Date("August 1 2021"),
@@ -40,12 +40,16 @@ export default function Sandbox({}: Props) {
     },
   ];
   return (
-    <div className="h-screen w-screen">
-      <CardContainer>
-        <div className="flex items-center justify-center h-full w-full ">
-          <Timeline timelineMilestones={timelineMilestones} />
-        </div>
-      </CardContainer>
-    </div>
+    <>
+      <div className="h-screen w-screen">
+        <CardContainer>
+          <div className="flex items-center justify-center h-full w-full ">
+            <Timeline timelineMilestones={timelineMilestones} />
+          </div>
+        </CardContainer>
+      </div>
+      <div className="h-[300vh]"></div>
+      <div id="education"></div>
+    </>
   );
 }

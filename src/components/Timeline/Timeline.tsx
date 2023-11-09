@@ -7,6 +7,7 @@ type Milestone = {
   endDateString: string;
   company: string;
   position: string;
+  redirectUrl?: string;
 };
 
 type TimelineProps = {
@@ -53,7 +54,11 @@ export default function Timeline({ timelineMilestones }: TimelineProps) {
       {isMobileDevice() ? (
         <TimelineMobile timelineMilestones={timelineMilestones} />
       ) : (
-        <TimelineDesktop timelineMilestones={processedMilestone} />
+        <TimelineDesktop
+          timelineMilestones={processedMilestone}
+          mainColor="#3D5AF1"
+          buttonColor="#22D1EE"
+        />
       )}
     </div>
   );
