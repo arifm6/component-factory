@@ -1,4 +1,3 @@
-"use client";
 import React, { useContext, useState } from "react";
 import MilestoneDescription from "./MilestoneDescription";
 import { motion } from "framer-motion";
@@ -16,11 +15,7 @@ export default function TimelineDesktop({
   mainColor,
   buttonColor,
 }: TimelineDesktopProps) {
-  const [dateIsHovered, setDateIsHovered] = useState(false);
-  const initialDateProps = { width: 0, opacity: 0 };
-  const animateDateProps = { width: "auto", opacity: 1 };
   //   const mainColorTextStyle = { color: mainColor };
-  const router = useRouter();
   return (
     <div className="w-full flex">
       {milestones.map((milestone, index) => {

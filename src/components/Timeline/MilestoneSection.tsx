@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 
 import type { ProcessedMilestone } from "./Timeline";
 import MilestoneDescription from "./MilestoneDescription";
+import { motion } from "framer-motion";
 type MilestoneSectionProps = {
   milestone: ProcessedMilestone;
   index: number;
@@ -16,6 +17,10 @@ export default function MilestoneSection({
   buttonColor,
 }: MilestoneSectionProps) {
   const alternate = index % 2 === 0;
+  const [dateIsHovered, setDateIsHovered] = useState(false);
+  const initialDateProps = { width: 0, opacity: 0 };
+  const animateDateProps = { width: "auto", opacity: 1 };
+
   return (
     <div className="flex justify-center grow relative ">
       <div className="flex items-center w-full">
@@ -38,12 +43,25 @@ export default function MilestoneSection({
         ></div>
       </div>
       <div
+        onMouseEnter={() => setDateIsHovered(true)}
+        onMouseLeave={() => {
+          setDateIsHovered(false);
+        }}
         style={{ color: mainColor }}
         className={`absolute ${
           alternate ? "bottom-full" : "top-full"
         } text-xl font-bold my-2`}
       >
-        {milestone.startDateString}
+        <div className="flex">
+          <span>{milestone.startDateString}</span>
+          <motion.span
+            initial={dateIsHovered ? animateDateProps : initialDateProps}
+            animate={dateIsHovered ? animateDateProps : initialDateProps}
+            className="whitespace-nowrap"
+          >
+            &nbsp;-&nbsp;{milestone.endDateString}
+          </motion.span>
+        </div>
       </div>
       <div
         className={`absolute ${
