@@ -22,26 +22,11 @@ export default function MilestoneSection({
   const animateDateProps = { width: "auto", opacity: 1 };
 
   return (
-    <div className="flex justify-center grow relative ">
-      <div className="flex items-center w-full">
-        <div
-          style={{ backgroundColor: mainColor }}
-          className={`grow h-[1px] bg-[${mainColor}]`}
-        ></div>
-        <div
-          style={{ borderColor: buttonColor }}
-          className="relative w-8 h-8 border-2 rounded-full"
-        >
-          <div
-            style={{ backgroundColor: buttonColor }}
-            className="w-4 h-4 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 rounded-full"
-          ></div>
-        </div>
-        <div
-          style={{ backgroundColor: mainColor }}
-          className="grow h-[1px] "
-        ></div>
-      </div>
+    <div className="flex justify-center items-center grow relative ">
+      <div
+        style={{ backgroundColor: mainColor }}
+        className={`grow h-[1px] bg-[${mainColor}]`}
+      ></div>
       <div
         onMouseEnter={() => setDateIsHovered(true)}
         onMouseLeave={() => {
@@ -64,6 +49,16 @@ export default function MilestoneSection({
         </div>
       </div>
       <div
+        style={{ borderColor: buttonColor }}
+        className="relative w-8 h-8 border-2 rounded-full"
+      >
+        <div
+          style={{ backgroundColor: buttonColor }}
+          className="w-4 h-4 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 rounded-full"
+        ></div>
+      </div>
+
+      <div
         className={`absolute ${
           alternate
             ? "top-full flex-col translate-y-2"
@@ -79,6 +74,10 @@ export default function MilestoneSection({
           />
         </div>
       </div>
+      <div
+        style={{ backgroundColor: mainColor }}
+        className="grow h-[1px] "
+      ></div>
     </div>
   );
 }
