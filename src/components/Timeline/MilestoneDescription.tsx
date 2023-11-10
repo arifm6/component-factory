@@ -3,8 +3,6 @@ import React from "react";
 type MilestoneDescriptionProps = {
   company: string;
   position: string;
-  startDate: string;
-  endDate: string;
 };
 
 export default function MilestoneDescription({
