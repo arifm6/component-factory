@@ -55,7 +55,7 @@ export default function MilestoneSection({
   }, [animate]);
 
   return (
-    <div className="flex justify-center items-center grow relative ">
+    <div className="flex justify-center items-center grow relative">
       <div className="grow">
         <motion.div
           initial={{ width: 0 }}
@@ -78,7 +78,7 @@ export default function MilestoneSection({
         <motion.div
           initial={{ opacity: 0 }}
           animate={dateAndButtonControls}
-          className="flex"
+          className="flex text-center"
         >
           <span>{milestone.startDateString}</span>
           <motion.span

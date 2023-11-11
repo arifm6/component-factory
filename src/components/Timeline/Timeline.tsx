@@ -82,7 +82,7 @@ export default function Timeline({
     return false; // Default to false if not on the client-side
   }
   return (
-    <div className="w-full">
+    <div className="w-full min-h-[312px] flex items-center">
       {isMobileDevice() ? (
         <TimelineMobile timelineMilestones={timelineMilestones} />
       ) : (

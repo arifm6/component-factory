@@ -1,7 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
-import MilestoneDescription from "./MilestoneDescription";
-import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import { ProcessedMilestone } from "./Timeline";
 import MilestoneSection from "./MilestoneSection";
 type TimelineDesktopProps = {
