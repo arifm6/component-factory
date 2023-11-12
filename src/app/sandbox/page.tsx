@@ -43,17 +43,13 @@ export default function Sandbox({}: Props) {
     <>
       <div className="h-screen w-screen">
         <CardContainer>
-          <div className="flex items-center justify-center h-full w-full ">
-            <Timeline
-              timelineMilestones={timelineMilestones}
-              mainColor="#3D5AF1"
-              buttonColor="#22D1EE"
-            />
-          </div>
+          <Timeline
+            timelineMilestones={timelineMilestones}
+            mainColor="#3D5AF1"
+            buttonColor="#22D1EE"
+          />
         </CardContainer>
       </div>
-      <div className="h-[300vh]"></div>
-      <div id="education"></div>
     </>
   );
 }

@@ -1,8 +1,9 @@
 "use client";
-import React, { createContext } from "react";
+import React, { useState } from "react";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 
-import TimelineMobile from "./TimelineMobile";
-import TimelineDesktop from "./TimelineDesktop";
+import MilestoneSection from "./MilestoneSection";
 
 export type Milestone = {
   startDate: Date;
@@ -25,6 +26,28 @@ type TimelineProps = {
   timelineMilestones: Milestone[];
   mainColor: string;
   buttonColor: string;
+};
+const responsive = {
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 4,
+    paritialVisibilityGutter: 60,
+  },
+  medium: {
+    breakpoint: { max: 1024, min: 767 },
+    items: 3,
+    paritialVisibilityGutter: 50,
+  },
+  small: {
+    breakpoint: { max: 767, min: 464 },
+    items: 2,
+    paritialVisibilityGutter: 40,
+  },
+  default: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1,
+    paritialVisibilityGutter: 30,
+  },
 };
 
 export default function Timeline({
@@ -73,25 +96,39 @@ export default function Timeline({
     });
   }
 
-  // Create a utility function for checking mobile devices
-  function isMobileDevice() {
-    if (typeof window !== "undefined") {
-      const mobileScreenWidth = 767; // Set your mobile breakpoint here
-      return window.innerWidth <= mobileScreenWidth;
-    }
-    return false; // Default to false if not on the client-side
-  }
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const onAnimationComplete = () => {
+    setCurrentIndex((prevIndex) => {
+      const nextIndex = prevIndex + 1;
+      if (nextIndex < processedMilestones.length) {
+        return nextIndex;
+      }
+      return prevIndex;
+    });
+  };
   return (
-    <div className="w-full min-h-[312px] flex items-center">
-      {isMobileDevice() ? (
-        <TimelineMobile timelineMilestones={timelineMilestones} />
-      ) : (
-        <TimelineDesktop
-          milestones={processedMilestones}
-          mainColor={mainColor}
-          buttonColor={buttonColor}
-        />
-      )}
-    </div>
+    <>
+      <Carousel
+        responsive={responsive}
+        partialVisbile
+        containerClass="min-h-[312px] border-2"
+        itemClass="flex justify-center items-center "
+      >
+        {processedMilestones.map((milestone, index) => {
+          return (
+            <MilestoneSection
+              milestone={milestone}
+              key={index}
+              mainColor={mainColor}
+              buttonColor={buttonColor}
+              animate={index === currentIndex}
+              onAnimationComplete={onAnimationComplete}
+              index={index}
+            />
+          );
+        })}
+      </Carousel>
+    </>
   );
 }
