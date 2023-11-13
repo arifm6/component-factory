@@ -79,11 +79,11 @@ export default function MilestoneSection({
           animate={milestoneDescriptionControls}
           variants={{
             hidden: {
-              y: "0",
+              y: alternate ? "30px" : "2px",
               opacity: 0,
             },
             visible: {
-              y: alternate ? "8px" : "8px",
+              y: alternate ? "38px" : "-10px",
               opacity: 1,
             },
           }}
@@ -92,9 +92,7 @@ export default function MilestoneSection({
         >
           <div
             className={`absolute ${
-              alternate
-                ? "flex-col translate-y-8 "
-                : "bottom-full flex-col-reverse -translate-y-2"
+              alternate ? "flex-col " : "bottom-full flex-col-reverse"
             } flex  items-center left-1/2 -translate-x-1/2`}
           >
             <div className="h-14 w-[1px] bg-[#DCDCDC]"></div>

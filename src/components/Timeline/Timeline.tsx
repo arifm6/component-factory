@@ -91,22 +91,22 @@ export default function Timeline({
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 5,
+      items: 6,
       // partialVisibilityGutter: 0,
     },
     medium: {
       breakpoint: { max: 1024, min: 767 },
-      items: 3,
+      items: 4.5,
       // partialVisibilityGutter: 50,
     },
     small: {
       breakpoint: { max: 767, min: 464 },
-      items: 2,
+      items: 3.5,
       // partialVisibilityGutter: 40,
     },
     default: {
       breakpoint: { max: 464, min: 0 },
-      items: 1,
+      items: 2.5,
       // partialVisibilityGutter: 30,
     },
   };
@@ -126,7 +126,6 @@ export default function Timeline({
     <div ref={containerRef}>
       <Carousel
         responsive={responsive}
-        centerMode
         containerClass="min-h-[312px] w-full"
         itemClass="first:flex first:justify-center first:items-center"
       >
