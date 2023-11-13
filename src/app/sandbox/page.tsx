@@ -50,6 +50,8 @@ export default function Sandbox({}: Props) {
           />
         </CardContainer>
       </div>
+      <div className="h-[300vh]"></div>
+      <div id="die"></div>
     </>
   );
 }

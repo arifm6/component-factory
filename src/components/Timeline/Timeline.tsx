@@ -1,9 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
 import MilestoneSection from "./MilestoneSection";
+import { useInView } from "framer-motion";
 
 export type Milestone = {
   startDate: Date;
@@ -31,22 +32,22 @@ const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
     items: 4,
-    paritialVisibilityGutter: 60,
+    partialVisibilityGutter: 60,
   },
   medium: {
     breakpoint: { max: 1024, min: 767 },
     items: 3,
-    paritialVisibilityGutter: 50,
+    partialVisibilityGutter: 50,
   },
   small: {
     breakpoint: { max: 767, min: 464 },
     items: 2,
-    paritialVisibilityGutter: 40,
+    partialVisibilityGutter: 40,
   },
   default: {
     breakpoint: { max: 464, min: 0 },
     items: 1,
-    paritialVisibilityGutter: 30,
+    partialVisibilityGutter: 30,
   },
 };
 
@@ -107,11 +108,14 @@ export default function Timeline({
       return prevIndex;
     });
   };
+  const containerRef = useRef(null);
+  const isInView = useInView(containerRef, { once: false, amount: 0.6 });
+
   return (
-    <>
+    <div ref={containerRef}>
       <Carousel
         responsive={responsive}
-        partialVisbile
+        partialVisible
         containerClass="min-h-[312px] border-2"
         itemClass="flex justify-center items-center "
       >
@@ -122,13 +126,13 @@ export default function Timeline({
               key={index}
               mainColor={mainColor}
               buttonColor={buttonColor}
-              animate={index === currentIndex}
+              animate={index === currentIndex && isInView}
               onAnimationComplete={onAnimationComplete}
               index={index}
             />
           );
         })}
       </Carousel>
-    </>
+    </div>
   );
 }
