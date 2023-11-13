@@ -1,10 +1,10 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
-import MilestoneSection from "./MilestoneSection";
-import { useInView } from "framer-motion";
+import MilestoneSection, { animationSpeed } from "./MilestoneSection";
+import { motion, useAnimation, useInView } from "framer-motion";
 
 export type Milestone = {
   startDate: Date;
@@ -75,7 +75,7 @@ export default function Timeline({
     });
   }
 
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(-1);
 
   const onAnimationComplete = () => {
     setCurrentIndex((prevIndex) => {
@@ -92,33 +92,52 @@ export default function Timeline({
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
       items: 5,
-      partialVisibilityGutter: 0,
+      // partialVisibilityGutter: 0,
     },
     medium: {
       breakpoint: { max: 1024, min: 767 },
       items: 3,
-      partialVisibilityGutter: 50,
+      // partialVisibilityGutter: 50,
     },
     small: {
       breakpoint: { max: 767, min: 464 },
       items: 2,
-      partialVisibilityGutter: 40,
+      // partialVisibilityGutter: 40,
     },
     default: {
       breakpoint: { max: 464, min: 0 },
       items: 1,
-      partialVisibilityGutter: 30,
+      // partialVisibilityGutter: 30,
     },
   };
-
+  const lineControls = useAnimation();
+  useEffect(() => {
+    const startAnimation = async () => {
+      lineControls.start({ width: "100%", opacity: 1 });
+    };
+    if (isInView) {
+      startAnimation();
+      setTimeout(() => {
+        onAnimationComplete();
+      }, animationSpeed * 1000);
+    }
+  }, [isInView]);
   return (
     <div ref={containerRef}>
       <Carousel
         responsive={responsive}
-        partialVisible
-        containerClass="min-h-[312px]"
-        itemClass="flex justify-center items-center "
+        centerMode
+        containerClass="min-h-[312px] w-full"
+        itemClass="first:flex first:justify-center first:items-center"
       >
+        <motion.div
+          initial={{ width: 0, opacity: 0, left: 0 }}
+          animate={lineControls}
+          transition={{ duration: animationSpeed }}
+          style={{ backgroundColor: mainColor }}
+          className="h-[1px] absolute"
+        ></motion.div>
+
         {processedMilestones.map((milestone, index) => {
           return (
             <MilestoneSection
