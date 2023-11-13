@@ -54,13 +54,14 @@ export default function MilestoneSection({
     }
   }, [animate]);
 
+  const animationSpeed = 0.75;
   return (
     <div className="flex justify-center items-center grow relative">
       <div className="grow">
         <motion.div
           initial={{ width: 0 }}
           animate={leftLineControls}
-          transition={{ duration: 1 }}
+          transition={{ duration: animationSpeed }}
           style={{ backgroundColor: mainColor }}
           className="grow h-[1px]"
         ></motion.div>
@@ -93,7 +94,7 @@ export default function MilestoneSection({
       <motion.div
         initial={{ opacity: 0 }}
         animate={dateAndButtonControls}
-        transition={{ duration: 1 }}
+        transition={{ duration: animationSpeed }}
         style={{ borderColor: buttonColor }}
         className="relative w-8 h-8 border-2 rounded-full"
       >
@@ -116,7 +117,7 @@ export default function MilestoneSection({
             opacity: 1,
           },
         }}
-        transition={{ duration: 1 }}
+        transition={{ duration: animationSpeed }}
         className={`absolute ${
           alternate
             ? "top-full flex-col translate-y-2"
@@ -137,7 +138,7 @@ export default function MilestoneSection({
         <motion.div
           initial={{ width: 0, opacity: 0 }}
           animate={rightLineControls}
-          transition={{ duration: 1 }}
+          transition={{ duration: animationSpeed }}
           style={{ backgroundColor: mainColor }}
           className="grow h-[1px]"
         ></motion.div>

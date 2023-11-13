@@ -91,8 +91,8 @@ export default function Timeline({
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 4,
-      partialVisibilityGutter: 60,
+      items: 5,
+      partialVisibilityGutter: 0,
     },
     medium: {
       breakpoint: { max: 1024, min: 767 },
@@ -116,7 +116,7 @@ export default function Timeline({
       <Carousel
         responsive={responsive}
         partialVisible
-        containerClass="min-h-[312px] border-2"
+        containerClass="min-h-[312px]"
         itemClass="flex justify-center items-center "
       >
         {processedMilestones.map((milestone, index) => {
