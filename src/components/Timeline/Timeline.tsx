@@ -28,28 +28,6 @@ type TimelineProps = {
   mainColor: string;
   buttonColor: string;
 };
-const responsive = {
-  desktop: {
-    breakpoint: { max: 3000, min: 1024 },
-    items: 4,
-    partialVisibilityGutter: 60,
-  },
-  medium: {
-    breakpoint: { max: 1024, min: 767 },
-    items: 3,
-    partialVisibilityGutter: 50,
-  },
-  small: {
-    breakpoint: { max: 767, min: 464 },
-    items: 2,
-    partialVisibilityGutter: 40,
-  },
-  default: {
-    breakpoint: { max: 464, min: 0 },
-    items: 1,
-    partialVisibilityGutter: 30,
-  },
-};
 
 export default function Timeline({
   timelineMilestones,
@@ -110,6 +88,28 @@ export default function Timeline({
   };
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: false, amount: 0.6 });
+  const responsive = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 4,
+      partialVisibilityGutter: 60,
+    },
+    medium: {
+      breakpoint: { max: 1024, min: 767 },
+      items: 3,
+      partialVisibilityGutter: 50,
+    },
+    small: {
+      breakpoint: { max: 767, min: 464 },
+      items: 2,
+      partialVisibilityGutter: 40,
+    },
+    default: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+      partialVisibilityGutter: 30,
+    },
+  };
 
   return (
     <div ref={containerRef}>
