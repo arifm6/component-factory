@@ -1,10 +1,19 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { dateToMonthYearString, dateToYearString } from "@/utils/dates";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
-import MilestoneSection, { animationSpeed } from "./MilestoneSection";
+import MilestoneSection, { ANIMATION_SPEED } from "./MilestoneSection";
 import { motion, useAnimation, useInView } from "framer-motion";
+const MIN_DATE = new Date(-8640000000000000); // JavaScript Date object's minimum value
+const MAX_DATE = new Date(8640000000000000); // JavaScript Date object's maximum value
 
 export type Milestone = {
   startDate: Date;
@@ -34,50 +43,47 @@ export default function Timeline({
   mainColor,
   buttonColor,
 }: TimelineProps) {
-  function dateToYearString(date: Date) {
-    return date.getFullYear().toString();
-  }
-  function dateToMonthYearString(date: Date) {
-    return `${date.toLocaleString("default", {
-      month: "long",
-    })} ${date.getFullYear()}`;
-  }
   // Sort the milestones based on startDate in ascending order
-  const sortedMilestones = timelineMilestones
-    .slice()
-    .sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
-  const processedMilestones = [];
-  for (let i = 0; i < sortedMilestones.length; i++) {
-    const milestone = sortedMilestones[i];
-    let previousMilestone = sortedMilestones[i - 1] ?? {
-      startDate: new Date("1427"),
-    };
-    let nextMilestone = sortedMilestones[i + 1] ?? {
-      startDate: new Date("1427"),
-    };
-    processedMilestones.push({
-      ...sortedMilestones[i],
+  const sortedMilestones = useMemo(() => {
+    return timelineMilestones
+      .slice()
+      .sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
+  }, [timelineMilestones]);
+  const processedMilestones = useMemo(() => {
+    const milestones = [];
+    for (let i = 0; i < sortedMilestones.length; i++) {
+      const milestone = sortedMilestones[i];
+      let previousMilestone = sortedMilestones[i - 1] ?? {
+        startDate: MIN_DATE,
+      };
+      let nextMilestone = sortedMilestones[i + 1] ?? {
+        startDate: MAX_DATE,
+      };
+      milestones.push({
+        ...sortedMilestones[i],
 
-      startDateString:
-        milestone.startDate.getFullYear() ===
-          previousMilestone.startDate.getFullYear() ||
-        milestone.startDate.getFullYear() ===
-          nextMilestone.startDate.getFullYear()
-          ? dateToMonthYearString(milestone.startDate)
-          : dateToYearString(milestone.startDate),
-      endDateString: !milestone.endDate
-        ? "Present"
-        : milestone.startDate.getFullYear() === milestone.endDate.getFullYear()
-        ? `${sortedMilestones[i].endDate.toLocaleString("default", {
-            month: "long",
-          })} ${sortedMilestones[i].endDate.getFullYear()}`
-        : sortedMilestones[i].endDate.getFullYear().toString(),
-    });
-  }
-
+        startDateString:
+          milestone.startDate.getFullYear() ===
+            previousMilestone.startDate.getFullYear() ||
+          milestone.startDate.getFullYear() ===
+            nextMilestone.startDate.getFullYear()
+            ? dateToMonthYearString(milestone.startDate)
+            : dateToYearString(milestone.startDate),
+        endDateString: !milestone.endDate
+          ? "Present"
+          : milestone.startDate.getFullYear() ===
+            milestone.endDate.getFullYear()
+          ? `${sortedMilestones[i].endDate.toLocaleString("default", {
+              month: "long",
+            })} ${sortedMilestones[i].endDate.getFullYear()}`
+          : sortedMilestones[i].endDate.getFullYear().toString(),
+      });
+    }
+    return milestones;
+  }, [sortedMilestones]);
   const [currentIndex, setCurrentIndex] = useState(-1);
 
-  const onAnimationComplete = () => {
+  const onAnimationComplete = useCallback(() => {
     setCurrentIndex((prevIndex) => {
       const nextIndex = prevIndex + 1;
       if (nextIndex < processedMilestones.length) {
@@ -85,7 +91,7 @@ export default function Timeline({
       }
       return prevIndex;
     });
-  };
+  }, [processedMilestones]);
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: false, amount: 0.6 });
   const responsive = {
@@ -119,9 +125,9 @@ export default function Timeline({
       startAnimation();
       setTimeout(() => {
         onAnimationComplete();
-      }, animationSpeed * 1000);
+      }, ANIMATION_SPEED * 1000);
     }
-  }, [isInView]);
+  }, [isInView, lineControls, onAnimationComplete]);
   return (
     <div ref={containerRef}>
       <Carousel
@@ -132,7 +138,7 @@ export default function Timeline({
         <motion.div
           initial={{ width: 0, opacity: 0, left: 0 }}
           animate={lineControls}
-          transition={{ duration: animationSpeed }}
+          transition={{ duration: ANIMATION_SPEED }}
           style={{ backgroundColor: mainColor }}
           className="h-[1px] absolute"
         ></motion.div>
@@ -141,7 +147,7 @@ export default function Timeline({
           return (
             <MilestoneSection
               milestone={milestone}
-              key={index}
+              key={milestone.startDate + milestone.position + milestone.company}
               mainColor={mainColor}
               buttonColor={buttonColor}
               animate={index === currentIndex && isInView}

@@ -11,7 +11,8 @@ type MilestoneSectionProps = {
   animate: boolean;
   onAnimationComplete: () => void;
 };
-export const animationSpeed = 0.75;
+export // Constants
+const ANIMATION_SPEED = 0.75;
 
 export default function MilestoneSection({
   milestone,
@@ -53,7 +54,14 @@ export default function MilestoneSection({
     if (animate) {
       animateSection();
     }
-  }, [animate]);
+  }, [
+    animate,
+    dateAndButtonControls,
+    leftLineControls,
+    milestoneDescriptionControls,
+    onAnimationComplete,
+    rightLineControls,
+  ]);
   return (
     <div className={`flex justify-center items-center  relative`}>
       {/* {index === 0 && (
@@ -61,7 +69,7 @@ export default function MilestoneSection({
           <motion.div
             initial={{ width: 0 }}
             animate={leftLineControls}
-            transition={{ duration: animationSpeed }}
+            transition={{ duration: ANIMATION_SPEED }}
             style={{ backgroundColor: mainColor }}
             className="grow h-[1px]"
           ></motion.div>
@@ -70,7 +78,7 @@ export default function MilestoneSection({
       <motion.div
         initial={{ opacity: 0 }}
         animate={dateAndButtonControls}
-        transition={{ duration: animationSpeed }}
+        transition={{ duration: ANIMATION_SPEED }}
         style={{ borderColor: buttonColor }}
         className="relative w-8 h-8 border-2 rounded-full "
       >
@@ -87,7 +95,7 @@ export default function MilestoneSection({
               opacity: 1,
             },
           }}
-          transition={{ duration: animationSpeed }}
+          transition={{ duration: ANIMATION_SPEED }}
           className=""
         >
           <div
@@ -141,7 +149,7 @@ export default function MilestoneSection({
         <motion.div
           initial={{ width: 0, opacity: 0 }}
           animate={rightLineControls}
-          transition={{ duration: animationSpeed }}
+          transition={{ duration: ANIMATION_SPEED }}
           style={{ backgroundColor: mainColor }}
           className="grow h-[1px]"
         ></motion.div>
